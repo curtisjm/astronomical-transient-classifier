@@ -1,0 +1,6 @@
+Swift Observatory:
+	https://swift.gsfc.nasa.gov/
+
+Data Sets:
+	https://swift.gsfc.nasa.gov/results/bs157mon/
+	https://swift.gsfc.nasa.gov/results/transients/
