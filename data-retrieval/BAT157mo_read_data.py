@@ -45,7 +45,7 @@ Rate, Rate Error:
 
 """
 [
-    [[Time1, Rate1, RateErr1], ...],
+    [[Times1[], Rates1[][], RateErrors1[][]], ...],
     [Name1, ...],
     [[RaObj1, DecObj1], ...]
 ]
