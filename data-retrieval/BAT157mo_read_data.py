@@ -23,8 +23,9 @@ from tsmoothie.utils_func import create_windows, sim_seasonal_data, sim_randomwa
 # import resource
 # resource.setrlimit(resource.RLIMIT_NOFILE, (1000,-1))
 
-# not take the BAT157 month  catalog
 import glob
+
+# https://docs.astropy.org/en/stable/io/fits/index.html
 from astropy.io import fits
 
 data_dir = "./BAT_157m_eight_band_monthly_lightcurve"
@@ -32,10 +33,21 @@ data_dir = "./BAT_157m_eight_band_monthly_lightcurve"
 file_list = glob.glob(data_dir + "/*.lc")
 
 """
+Rate, Rate Error:
+8 energy bands are measured at the same time each month
 [
-    [[Time, ...], [Rate, ...], [RateError, ...]],
-    [Name, ...],
-    [[RaObj, DecObj], ...]
+    e1:[Mo1, Mo2, Mo3, ...],
+    e2:[Mo1, Mo2, Mo3, ...],
+    e3:[Mo1, Mo2, Mo3, ...],
+    ...
+]
+"""
+
+"""
+[
+    [[Times1[], Rates1[][], RateErrors1[][]], ...],
+    [Name1, ...],
+    [[RaObj1, DecObj1], ...]
 ]
 """
 data1 = [[], [], []]
@@ -46,6 +58,7 @@ for a in file_list:
     rate = file1[1].data["RATE"]
     rate_error = file1[1].data["RATE_ERR"]
     name = file1[1].data["NAME"][0]
+    # coordinates
     ra_obj = file1[1].data["RA_OBJ "][0]
     dec_obj = file1[1].data["DEC_OBJ"][0]
     file1.close()
@@ -68,10 +81,36 @@ for a in file_list:
     data1[1].append(name)
     data1[2].append([ra_obj, dec_obj])
 
-print()
-print(
-    f"Time: {data1[0][0][0][0]}    Rate: {data1[0][0][0][1]}    Rate Error: {data1[0][0][0][2]}"
-)
-print(f"Name: {data1[1][0]}")
-print(f"RaObj: {data1[2][0][0]}    DecObj: {data1[2][0][1]}")
-print()
+
+# print()
+# print(
+#     f"Time: {data1[0][0][0][0]}     Rate: {data1[0][0][0][1]}    Rate Error: {data1[0][0][0][2]}"
+# )
+# print(f"Name: {data1[1][0]}")
+# print(f"RaObj: {data1[2][0][0]}    DecObj: {data1[2][0][1]}")
+
+# # time (MJD)
+# x = np.array(data1[0][0][0])
+# # rate (Crab)
+# y = np.array(data1[0][0][1][0])
+# y_err = np.array(data1[0][0][2][0])
+
+# print(f"x: {x}")
+# print(f"y: {y}")
+
+# time (MJD)
+x = np.array(data1[0][0][0])
+# rate (Crab)
+rates = np.array(data1[0][0][1])
+rate_errors = np.array(data1[0][0][2])
+
+for i in range(8):
+    y = rates[i]
+    y_err = rate_errors[i]
+
+    plt.subplot(8, 1, i + 1)
+    plt.scatter(x, y)
+    plt.errorbar(x, y, yerr=y_err, fmt="o")
+    plt.xlabel("Time (MJD)")
+    plt.ylabel("Rate (Crab)")
+plt.show()
