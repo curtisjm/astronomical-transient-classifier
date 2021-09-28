@@ -82,35 +82,32 @@ for a in file_list:
     data1[2].append([ra_obj, dec_obj])
 
 
-# print()
-# print(
-#     f"Time: {data1[0][0][0][0]}     Rate: {data1[0][0][0][1]}    Rate Error: {data1[0][0][0][2]}"
-# )
-# print(f"Name: {data1[1][0]}")
-# print(f"RaObj: {data1[2][0][0]}    DecObj: {data1[2][0][1]}")
+def graph_first_value():
+    # time (MJD)
+    x = np.array(data1[0][0][0])
+    # rate (Crab)
+    rates = np.array(data1[0][0][1])
+    rate_errors = np.array(data1[0][0][2])
 
-# # time (MJD)
-# x = np.array(data1[0][0][0])
-# # rate (Crab)
-# y = np.array(data1[0][0][1][0])
-# y_err = np.array(data1[0][0][2][0])
+    for i in range(8):
+        y = rates[i]
+        y_err = rate_errors[i]
 
-# print(f"x: {x}")
-# print(f"y: {y}")
+        plt.subplot(8, 1, i + 1)
+        plt.scatter(x, y)
+        plt.errorbar(x, y, yerr=y_err, fmt="o")
+        plt.xlabel("Time (MJD)")
+        plt.ylabel("Rate (Crab)")
+    plt.show()
 
-# time (MJD)
-x = np.array(data1[0][0][0])
-# rate (Crab)
-rates = np.array(data1[0][0][1])
-rate_errors = np.array(data1[0][0][2])
 
-for i in range(8):
-    y = rates[i]
-    y_err = rate_errors[i]
+def find_min_time():
+    min_t = 99999
+    for i in range(len(data1[0])):
+        if float(data1[0][0][i][0]) < min_t:
+            min_t = float(data1[0][0][i][0][0])
+    print(f"Min Time: {min_t}")
 
-    plt.subplot(8, 1, i + 1)
-    plt.scatter(x, y)
-    plt.errorbar(x, y, yerr=y_err, fmt="o")
-    plt.xlabel("Time (MJD)")
-    plt.ylabel("Rate (Crab)")
-plt.show()
+
+# graph_first_value()
+find_min_time()
