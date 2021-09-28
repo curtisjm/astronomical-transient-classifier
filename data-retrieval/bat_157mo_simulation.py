@@ -26,7 +26,7 @@ from tsmoothie.utils_func import create_windows, sim_seasonal_data, sim_randomwa
 import glob
 from astropy.io import fits
 
-data_dir = "./BAT_157m_eight_band_monthly_lightcurve"
+data_dir = "./bat_157mo_eight_band_monthly_lightcurve"
 # on cori
 # data_dir='/global/homes/n/nino_lbl/Data/BAT/BAT_157m_eight_band_monthly_lightcurve'
 

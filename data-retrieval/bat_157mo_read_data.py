@@ -102,12 +102,14 @@ def graph_first_value():
 
 
 def find_min_time():
-    min_t = 99999
+    min_t = 1e12
     for i in range(len(data1[0])):
-        if float(data1[0][0][i][0]) < min_t:
-            min_t = float(data1[0][0][i][0][0])
-    print(f"Min Time: {min_t}")
+        if float(data1[0][i][0][0]) < min_t:
+            min_t = float(data1[0][i][0][0])
+    # print(f"Min Time: {min_t}")
+    return min_t
 
 
 # graph_first_value()
-find_min_time()
+min_time = find_min_time()
+print(min_time)
