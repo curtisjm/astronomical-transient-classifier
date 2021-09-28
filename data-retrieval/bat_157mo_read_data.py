@@ -28,7 +28,7 @@ import glob
 # https://docs.astropy.org/en/stable/io/fits/index.html
 from astropy.io import fits
 
-data_dir = "./BAT_157m_eight_band_monthly_lightcurve"
+data_dir = "./bat_157mo_eight_band_monthly_lightcurve"
 
 file_list = glob.glob(data_dir + "/*.lc")
 
@@ -102,7 +102,7 @@ def graph_first_value():
 
 
 def find_min_time():
-    min_t = 1e12
+    min_t = 1e14
     for i in range(len(data1[0])):
         if float(data1[0][i][0][0]) < min_t:
             min_t = float(data1[0][i][0][0])
@@ -111,5 +111,7 @@ def find_min_time():
 
 
 # graph_first_value()
-min_time = find_min_time()
-print(min_time)
+# min_time = find_min_time()
+# print(min_time)
+
+print(len(data1[0]))
