@@ -16,6 +16,52 @@ from astropy.cosmology import FlatLambdaCDM
 
 cosmo = FlatLambdaCDM(H0=70 * u.km / u.s / u.Mpc, Tcmb0=2.725 * u.K, Om0=0.3)
 
+labels = {
+    "Sy1": "1",
+    "Sy1.2": "1",
+    "Sy1.5": "1",
+    "Sy1.8": "1",
+    "Sy1.9": "1",
+    "Beamed AGN": "2",
+    "Compact group of gal": "3",
+    "Galactic Center": "4",
+    "GC": "4",
+    "Galaxy Cluster": "5",
+    "Gamma-ray source": "6",
+    "Open star cluster": "7",
+    "Sy1;broad-line AGN": "8",
+    "Unknown AGN": "9",
+    "molecular cloud": "10",
+    "Starburst galaxy": "11",
+    "Sy2 candidate": "12",
+    "Symbiotic star": "13",
+    "Pulsar": "14",
+    "Sy2": "15",
+    "U1": "16",
+    "U2": "17",
+    "U3": "18",
+    "SNR": "19",
+    "HMXB": "20",
+    "CV": "21",
+    "LMXB": "22",
+    "XRB": "23",
+    "Nova": "24",
+    "star": "25",
+    "multiple": "26",
+    "LINER": "27",
+}
+
+
+def get_class_name(class_num):
+    keys = list(labels.keys())
+    values = list(labels.values())
+    pos = values.index(class_num)
+    return keys[pos]
+
+
+def make_label(val):
+    return labels[val]
+
 
 def plot_by_class(data, class_num):
     # rates = []
@@ -25,74 +71,6 @@ def plot_by_class(data, class_num):
     # print(rates)
     print(f"0: {len(data[0])}")
     print(f"3: {len(data[3])}")
-
-
-def get_class_name(class_num):
-    pass
-
-
-def make_label(val):
-    if (
-        val == "Sy1.9"
-        or val == "Sy1.2"
-        or val == "Sy1.5"
-        or val == "Sy1.8"
-        or val == "Sy1"
-    ):
-        val = "1"
-    elif val == "Beamed AGN":
-        val = "2"
-    elif val == "Compact group of gal":
-        val = "3"
-    elif val == "Galactic Center" or val == "GC":
-        val = "4"
-    elif val == "Galaxy Cluster":
-        val = "5"
-    elif val == "Gamma-ray source":
-        val = "6"
-    elif val == "Open star cluster":
-        val = "7"
-    elif val == "Sy1;broad-line AGN":
-        val = "8"
-    elif val == "Unknown AGN":
-        val = "9"
-    elif val == "molecular cloud":
-        val = "10"
-    elif val == "Starburst galaxy":
-        val = "11"
-    elif val == "Sy2 candidate":
-        val = "12"
-    elif val == "Symbiotic star":
-        val = "13"
-    elif val == "Pulsar":
-        val = "14"
-    elif val == "Sy2":
-        val = "15"
-    elif val == "U1":
-        val = "16"
-    elif val == "U2":
-        val = "17"
-    elif val == "U3":
-        val = "18"
-    elif val == "SNR":
-        val = "19"
-    elif val == "HMXB":
-        val = "20"
-    elif val == "CV":
-        val = "21"
-    elif val == "LMXB":
-        val = "22"
-    elif val == "XRB":
-        val = "23"
-    elif val == "Nova":
-        val = "24"
-    elif val == "star":
-        val = "25"
-    elif val == "multiple":
-        val = "26"
-    elif val == "LINER":
-        val = "27"
-    return val
 
 
 table_157mo = pd.read_html("https://swift.gsfc.nasa.gov/results/bs157mon/", match=".+")
@@ -153,6 +131,7 @@ for i in range(len(new_bnames)):
 """
 data1 = [[], [], [], []]
 namobj = []
+
 for i in range(len(match)):
     a = file_list[match[i][0]]
     namobj.append(new_bnames[match[i][0]])
