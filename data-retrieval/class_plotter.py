@@ -64,13 +64,16 @@ def make_label(val):
 
 
 def plot_by_class(data, class_num):
-    # rates = []
-    # for i in range(len(data[3])):
-    #     if int(data[3][i]) == class_num:
-    #         rates.append(data[0][i][1])
-    # print(rates)
-    print(f"0: {len(data[0])}")
-    print(f"3: {len(data[3])}")
+    rates = []
+    # put all rate matrices into their own array
+    for i in range(len(data[3])):
+        if int(data[3][i]) == class_num:
+            rates.append(data[0][i][1])
+    # plot each element in the rates array
+    for i in range(len(rates)):
+        plt.subplot(len(rates), 1, i + 1)
+        plt.imshow(np.array(rates[i]) * 1e5, cmap="gray")
+    plt.show()
 
 
 table_157mo = pd.read_html("https://swift.gsfc.nasa.gov/results/bs157mon/", match=".+")
@@ -179,4 +182,6 @@ print(len(data1[0]), len(data1[3]))
 # 8 raws, 155 columns
 print(data1[0][0][1].shape)
 
-plot_by_class(data1, 1)
+# plot_by_class(data1, 1)
+print(f"0: {len(data1[0])}")
+print(f"3: {len(data1[3])}")
