@@ -52,6 +52,7 @@ labels = {
 }
 
 
+# find label name from label number
 def get_class_name(class_num):
     keys = list(labels.keys())
     values = list(labels.values())
@@ -59,10 +60,12 @@ def get_class_name(class_num):
     return keys[pos]
 
 
+# get label number from label string
 def make_label(val):
     return labels[val]
 
 
+# plot images of all objects of a given class
 def plot_by_class(data, class_num):
     rates = []
     # put all rate matrices into their own array
@@ -178,10 +181,10 @@ for i in range(len(match)):
     data1[3].append(make_label(match[i][1]))
 
 print("Checking the size of the arrays and their shapes\n")
-print(len(data1[0]), len(data1[3]))
 # 8 raws, 155 columns
 print(data1[0][0][1].shape)
 
 # plot_by_class(data1, 1)
-print(f"0: {len(data1[0])}")
-print(f"3: {len(data1[3])}")
+# TODO: remove labels from objects that are discarded
+print(f"Objects: {len(data1[0])}")
+print(f"Labels: {len(data1[3])}")
