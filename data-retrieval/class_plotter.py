@@ -70,12 +70,18 @@ def plot_by_class(data, class_num):
     rates = []
     # put all rate matrices into their own array
     for i in range(len(data[3])):
-        if int(data[3][i]) == class_num:
+        if data[3][i] == class_num:
             rates.append(data[0][i][1])
     # plot each element in the rates array
     for i in range(len(rates)):
         plt.subplot(len(rates), 1, i + 1)
         plt.imshow(np.array(rates[i]) * 1e5, cmap="gray")
+        if i == 0:
+            plt.title(
+                label=get_class_name(class_num),
+                fontdict={"fontsize": "30"},
+                pad=35,
+            )
     plt.show()
 
 
@@ -137,6 +143,8 @@ for i in range(len(new_bnames)):
 """
 data1 = [[], [], [], []]
 namobj = []
+# indices of objects with less than 155 observations
+to_remove = []
 
 for i in range(len(match)):
     a = file_list[match[i][0]]
@@ -169,22 +177,34 @@ for i in range(len(match)):
     # cut the matrix from 1-8 raws and 1-155 columns
     rate_new = rate.T[:-1]
     rate_err_new = rate_error.T[:-1]
-    if rate_new.shape[1] >= 155:
-        # print(rat_new.shape)
-        # print(rate_new[:,:155])
-        data1[0].append([time[:155], rate_new[:, :155], rate_err_new[:, :155]])
-    else:
-        print("Some object has less than 155 observations")
 
+    if rate_new.shape[1] < 155:
+        print("Some object has less than 155 observations")
+        to_remove.append(i)
+
+    # if rate_new.shape[1] >= 155:
+    #     # print(rat_new.shape)
+    #     # print(rate_new[:,:155])
+    #     data1[0].append([time[:155], rate_new[:, :155], rate_err_new[:, :155]])
+    # else:
+    #     print("Some object has less than 155 observations")
+
+    data1[0].append([time[:155], rate_new[:, :155], rate_err_new[:, :155]])
     data1[1].append(name)
     data1[2].append([ra_obj, dec_obj])
     data1[3].append(make_label(match[i][1]))
 
-print("Checking the size of the arrays and their shapes\n")
+print("To remove", to_remove)
+# remove objects with less than 155 observations and their corresponding labels
+for idx in to_remove:
+    data1[0].pop(idx)
+    data1[3].pop(idx)
+
+print("Checking the size of the arrays and their shapes")
 # 8 raws, 155 columns
 print(data1[0][0][1].shape)
 
-# plot_by_class(data1, 1)
-# TODO: remove labels from objects that are discarded
 print(f"Objects: {len(data1[0])}")
 print(f"Labels: {len(data1[3])}")
+
+plot_by_class(data1, "27")
