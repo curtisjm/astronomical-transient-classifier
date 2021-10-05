@@ -14,76 +14,9 @@ from tsmoothie.utils_func import create_windows, sim_seasonal_data, sim_randomwa
 from astropy.io import fits
 from astropy.cosmology import FlatLambdaCDM
 
+from utils import *
+
 cosmo = FlatLambdaCDM(H0=70 * u.km / u.s / u.Mpc, Tcmb0=2.725 * u.K, Om0=0.3)
-
-labels = {
-    "Sy1": "1",
-    "Sy1.2": "1",
-    "Sy1.5": "1",
-    "Sy1.8": "1",
-    "Sy1.9": "1",
-    "Beamed AGN": "2",
-    "Compact group of gal": "3",
-    "Galactic Center": "4",
-    "GC": "4",
-    "Galaxy Cluster": "5",
-    "Gamma-ray source": "6",
-    "Open star cluster": "7",
-    "Sy1;broad-line AGN": "8",
-    "Unknown AGN": "9",
-    "molecular cloud": "10",
-    "Starburst galaxy": "11",
-    "Sy2 candidate": "12",
-    "Symbiotic star": "13",
-    "Pulsar": "14",
-    "Sy2": "15",
-    "U1": "16",
-    "U2": "17",
-    "U3": "18",
-    "SNR": "19",
-    "HMXB": "20",
-    "CV": "21",
-    "LMXB": "22",
-    "XRB": "23",
-    "Nova": "24",
-    "star": "25",
-    "multiple": "26",
-    "LINER": "27",
-}
-
-
-# find label name from label number
-def get_class_name(class_num):
-    keys = list(labels.keys())
-    values = list(labels.values())
-    pos = values.index(class_num)
-    return keys[pos]
-
-
-# get label number from label string
-def make_label(val):
-    return labels[val]
-
-
-# plot images of all objects of a given class
-def plot_by_class(data, class_num):
-    rates = []
-    # put all rate matrices into their own array
-    for i in range(len(data[3])):
-        if data[3][i] == class_num:
-            rates.append(data[0][i][1])
-    # plot each element in the rates array
-    for i in range(len(rates)):
-        plt.subplot(len(rates), 1, i + 1)
-        plt.imshow(np.array(rates[i]) * 1e5, cmap="gray")
-        if i == 0:
-            plt.title(
-                label=get_class_name(class_num),
-                fontdict={"fontsize": "30"},
-                pad=35,
-            )
-    plt.show()
-
 
 table_157mo = pd.read_html("https://swift.gsfc.nasa.gov/results/bs157mon/", match=".+")
 df = table_157mo[1]
@@ -198,6 +131,8 @@ print("To remove", to_remove)
 # remove objects with less than 155 observations and their corresponding labels
 for idx in to_remove:
     data1[0].pop(idx)
+    data1[1].pop(idx)
+    data1[2].pop(idx)
     data1[3].pop(idx)
 
 print("Checking the size of the arrays and their shapes")
@@ -207,4 +142,4 @@ print(data1[0][0][1].shape)
 print(f"Objects: {len(data1[0])}")
 print(f"Labels: {len(data1[3])}")
 
-plot_by_class(data1, "27")
+np.save("bat_data1.npy", data1, allow_pickle=True, fix_imports=False)
