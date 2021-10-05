@@ -1,5 +1,9 @@
 import numpy as np
 
-data1 = np.load("bat_data1.npy", allow_pickle=True, fix_imports=False)
+from plotting import *
+from utils import *
 
-print(data1[1][0])
+data = np.load("bat_data1.npy", allow_pickle=True, fix_imports=False)
+
+# display histograms of Supernova Remnants
+plot_histograms_by_class(data, "19")
