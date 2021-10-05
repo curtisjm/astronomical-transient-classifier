@@ -26,25 +26,20 @@ for rate_matrix in rates:
         }
     )
 
-# apply normalization calculations to each of the values in the rates array
-# normalized_rates = [
-#     [
-#         [(float(flux) - stats[i]["mean"]) / stats[i]["variance"] for flux in e_band]
-#         for e_band in rate_matrix
-#     ]
-#     for rate_matrix in rates
-#     i += 1
-# ]
 normalized_rates = []
 i = 0
 for rate_matrix in rates:
+    new_rate_matrix = []
     for e_band in rate_matrix:
+        new_eband = []
         for flux in e_band:
-            normalized_rates.append(
-                (float(flux) - stats[i]["mean"]) / stats[i]["variance"]
-            )
+            new_eband.append((float(flux) - stats[i]["mean"]) / stats[i]["variance"])
+        new_rate_matrix.append(new_eband)
+    normalized_rates.append(new_rate_matrix)
     i += 1
 
 print(normalized_rates)
 
-plot_rates_histogram(normalized_rates)
+# plot_rates_histogram(normalized_rates)
+plot_rates_images(normalized_rates, class_num)
+plot_images_by_class(data, class_num)

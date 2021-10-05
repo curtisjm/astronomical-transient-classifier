@@ -52,3 +52,17 @@ def plot_rates_histogram(rates):
         plt.subplot(len(rates), 1, i + 1)
         plt.hist(rates[i])
     plt.show()
+
+
+def plot_rates_images(rates, class_num):
+    for i in range(len(rates)):
+        plt.subplot(len(rates), 1, i + 1)
+        plt.imshow(np.array(rates[i]) * 1e5, cmap="gray")
+        # plt.title(names[i])
+        # if i == 0:
+        #     plt.title(
+        #         label=get_class_name(class_num),
+        #         fontdict={"fontsize": "30"},
+        #         pad=35,
+        #     )
+    plt.show()
