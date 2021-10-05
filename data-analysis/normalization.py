@@ -42,4 +42,3 @@ print(normalized_rates)
 
 # plot_rates_histogram(normalized_rates)
 plot_rates_images(normalized_rates, class_num)
-plot_images_by_class(data, class_num)

@@ -59,10 +59,10 @@ def plot_rates_images(rates, class_num):
         plt.subplot(len(rates), 1, i + 1)
         plt.imshow(np.array(rates[i]) * 1e5, cmap="gray")
         # plt.title(names[i])
-        # if i == 0:
-        #     plt.title(
-        #         label=get_class_name(class_num),
-        #         fontdict={"fontsize": "30"},
-        #         pad=35,
-        #     )
+        if i == 0:
+            plt.title(
+                label=get_class_name(class_num),
+                fontdict={"fontsize": "30"},
+                pad=35,
+            )
     plt.show()
