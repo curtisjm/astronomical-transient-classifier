@@ -4,7 +4,7 @@ import numpy as np
 from utils import *
 
 # plot images of all objects of a given class
-def plot_images_by_class(data, class_num):
+def plot_images_by_class(data, class_num="0"):
     rates = []
     # names = []
     # put all rate matrices into their own array
@@ -27,7 +27,7 @@ def plot_images_by_class(data, class_num):
 
 
 # display histograms for each object of a given class
-def plot_histograms_by_class(data, class_num):
+def plot_histograms_by_class(data, class_num="0"):
     rates = []
     # put all rate matrices into their own array
     for i in range(len(data[3])):
@@ -47,6 +47,7 @@ def plot_histograms_by_class(data, class_num):
     plt.show()
 
 
+# plot the histogram of a given array of rate matrices
 def plot_rates_histogram(rates):
     for i in range(len(rates)):
         plt.subplot(len(rates), 1, i + 1)
@@ -54,7 +55,8 @@ def plot_rates_histogram(rates):
     plt.show()
 
 
-def plot_rates_images(rates, class_num):
+# plot the image representations of the rates for a single object
+def plot_rates_images(rates, class_num="0"):
     for i in range(len(rates)):
         plt.subplot(len(rates), 1, i + 1)
         plt.imshow(np.array(rates[i]) * 1e5, cmap="gray")
@@ -68,23 +70,39 @@ def plot_rates_images(rates, class_num):
     plt.show()
 
 
-def rates_vs_norm_rates(rates, norm_rates):
+# compare the images of the original rates measurements to the normalized values
+def rates_vs_norm_rates(rates, norm_rates, class_num="0"):
+    if len(rates) != len(norm_rates):
+        print(
+            "Lengths of rates and normalized rates arrays are not equal. Aborting display of images."
+        )
+        return
+    fig, axs = plt.subplots(len(rates), 2)
     for i in range(len(rates)):
-        plt.subplot(len(rates), 1, i + 1)
-        plt.imshow(np.array(rates[i]) * 1e5, cmap="gray")
-        if i == 0:
-            plt.title(
-                label="Original Rates",
-                fontdict={"fontsize": "30"},
-                pad=35,
-            )
-    for i in range(len(norm_rates)):
-        plt.subplot(len(norm_rates), 2, i + 1)
-        plt.imshow(np.array(norm_rates[i]) * 1e5, cmap="gray")
-        if i == 0:
-            plt.title(
-                label="Normalized Rates",
-                fontdict={"fontsize": "30"},
-                pad=35,
-            )
+        axs[i][0].imshow(np.array(rates[i]) * 1e5, cmap="gray")
+        axs[i][1].imshow(np.array(norm_rates[i]) * 1e5, cmap="gray")
+
+    # for i in range(0, len(rates) * 2, 2):
+    #     plt.subplot(len(rates), 1, i + 1)
+    #     plt.imshow(np.array(rates[i]) * 1e5, cmap="gray")
+    #     if i == 0:
+    #         plt.title(
+    #             label="Original Rates",
+    #             fontdict={"fontsize": "30"},
+    #             pad=20,
+    #         )
+    #     plt.subplot(len(norm_rates), 2, i + 2)
+    #     plt.imshow(np.array(norm_rates[i]) * 1e5, cmap="gray")
+    #     if i == 0:
+    #         plt.title(
+    #             label="Normalized Rates",
+    #             fontdict={"fontsize": "30"},
+    #             pad=20,
+    #         )
+
+    # plt.suptitle(
+    #     label=get_class_name(class_num),
+    #     fontdict={"fontsize": "30"},
+    #     pad=35,
+    # )
     plt.show()

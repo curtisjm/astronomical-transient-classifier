@@ -62,8 +62,13 @@ for rate_matrix in normalized_rates:
     )
 
 print(normalized_rates)
-print(norm_stats)
+# print(norm_stats)
 
 # plot_rates_histogram(normalized_rates)
 # plot_rates_images(normalized_rates, class_num)
-rates_vs_norm_rates(rates, normalized_rates)
+rates_vs_norm_rates(rates, normalized_rates, class_num)
+
+# plt.subplots()
+# plot_rates_images(rates, class_num)
+# plt.subplots()
+# plot_rates_images(normalized_rates, class_num)

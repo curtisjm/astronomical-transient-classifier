@@ -1,6 +1,8 @@
 import numpy as np
 
 labels = {
+    "*No Label Available*": "0",
+    "Sy1.x": "1",
     "Sy1": "1",
     "Sy1.2": "1",
     "Sy1.5": "1",
