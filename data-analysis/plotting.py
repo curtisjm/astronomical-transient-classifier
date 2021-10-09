@@ -81,28 +81,18 @@ def rates_vs_norm_rates(rates, norm_rates, class_num="0"):
     for i in range(len(rates)):
         axs[i][0].imshow(np.array(rates[i]) * 1e5, cmap="gray")
         axs[i][1].imshow(np.array(norm_rates[i]) * 1e5, cmap="gray")
-
-    # for i in range(0, len(rates) * 2, 2):
-    #     plt.subplot(len(rates), 1, i + 1)
-    #     plt.imshow(np.array(rates[i]) * 1e5, cmap="gray")
-    #     if i == 0:
-    #         plt.title(
-    #             label="Original Rates",
-    #             fontdict={"fontsize": "30"},
-    #             pad=20,
-    #         )
-    #     plt.subplot(len(norm_rates), 2, i + 2)
-    #     plt.imshow(np.array(norm_rates[i]) * 1e5, cmap="gray")
-    #     if i == 0:
-    #         plt.title(
-    #             label="Normalized Rates",
-    #             fontdict={"fontsize": "30"},
-    #             pad=20,
-    #         )
-
-    # plt.suptitle(
-    #     label=get_class_name(class_num),
-    #     fontdict={"fontsize": "30"},
-    #     pad=35,
-    # )
+    axs[0][0].set_title(
+        label="Original Rates",
+        fontdict={"fontsize": "15"},
+        pad=20,
+    )
+    axs[0][1].set_title(
+        label="Normalized Rates",
+        fontdict={"fontsize": "15"},
+        pad=20,
+    )
+    fig.suptitle(
+        get_class_name(class_num),
+        fontsize=30,
+    )
     plt.show()
