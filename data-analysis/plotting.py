@@ -47,11 +47,50 @@ def plot_histograms_by_class(data, class_num="0"):
     plt.show()
 
 
+# flatten each rates matrix in an array of objects
+def flatten_rates(rates):
+    rates = np.array(rates)
+    return [rate_matrix.flatten() for rate_matrix in rates]
+
+
 # plot the histogram of a given array of rate matrices
 def plot_rates_histogram(rates):
+    rates = flatten_rates(rates)
     for i in range(len(rates)):
         plt.subplot(len(rates), 1, i + 1)
         plt.hist(rates[i])
+    plt.show()
+
+
+# compare the histograms of objects before and after normalization
+def compare_histograms(rates, norm_rates, class_num="0"):
+    if len(rates) != len(norm_rates):
+        print(
+            "Lengths of rates and normalized rates arrays are not equal. Aborting display of images."
+        )
+        return
+    rates = flatten_rates(rates)
+    norm_rates = flatten_rates(norm_rates)
+
+    fig, axs = plt.subplots(len(rates), 2)
+    for i in range(len(rates)):
+        axs[i][0].hist(rates[i])
+        axs[i][1].hist(norm_rates[i])
+
+    axs[0][0].set_title(
+        label="Original Rates",
+        fontdict={"fontsize": "15"},
+        pad=20,
+    )
+    axs[0][1].set_title(
+        label="Normalized Rates",
+        fontdict={"fontsize": "15"},
+        pad=20,
+    )
+    fig.suptitle(
+        get_class_name(class_num),
+        fontsize=30,
+    )
     plt.show()
 
 
@@ -77,10 +116,12 @@ def rates_vs_norm_rates(rates, norm_rates, class_num="0"):
             "Lengths of rates and normalized rates arrays are not equal. Aborting display of images."
         )
         return
+
     fig, axs = plt.subplots(len(rates), 2)
     for i in range(len(rates)):
         axs[i][0].imshow(np.array(rates[i]) * 1e5, cmap="gray")
         axs[i][1].imshow(np.array(norm_rates[i]) * 1e5, cmap="gray")
+
     axs[0][0].set_title(
         label="Original Rates",
         fontdict={"fontsize": "15"},
