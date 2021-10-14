@@ -6,17 +6,14 @@ from utils import *
 # plot images of all objects of a given class
 def plot_images_by_class(data, class_num="0"):
     rates = []
-    # names = []
     # put all rate matrices into their own array
     for i in range(len(data[3])):
         if data[3][i] == class_num:
             rates.append(data[0][i][1])
-            # names.append(data[1][i])
     # plot each element in the rates array
     for i in range(len(rates)):
         plt.subplot(len(rates), 1, i + 1)
         plt.imshow(np.array(rates[i]) * 1e5, cmap="gray")
-        # plt.title(names[i])
         if i == 0:
             plt.title(
                 label=get_class_name(class_num),
@@ -37,7 +34,6 @@ def plot_histograms_by_class(data, class_num="0"):
     for i in range(len(rates)):
         plt.subplot(len(rates), 1, i + 1)
         plt.hist(rates[i])
-        # plt.title(names[i])
         if i == 0:
             plt.title(
                 label=get_class_name(class_num),
@@ -117,8 +113,10 @@ def rates_vs_norm_rates(rates, norm_rates, class_num="0"):
         )
         return
 
-    fig, axs = plt.subplots(len(rates), 2)
-    for i in range(len(rates)):
+    length = 10 if len(rates) > 10 else len(rates)
+
+    fig, axs = plt.subplots(length, 2)
+    for i in range(length):
         axs[i][0].imshow(np.array(rates[i]) * 1e5, cmap="gray")
         axs[i][1].imshow(np.array(norm_rates[i]) * 1e5, cmap="gray")
 
