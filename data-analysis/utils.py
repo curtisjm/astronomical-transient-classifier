@@ -51,6 +51,7 @@ def make_label(val):
     return labels[val]
 
 
+# find the earliest time that an object was recorded at
 def find_min_time(data):
     min_t = 1e14
     for i in range(len(data[0])):
@@ -58,3 +59,12 @@ def find_min_time(data):
             min_t = float(data[0][i][0][0])
     # print(f"Min Time: {min_t}")
     return min_t
+
+
+# find how many objects of a given class are in the dataset
+def get_num_objects_by_class(data, class_num):
+    count = 0
+    for num in data[3]:
+        if num == class_num:
+            count += 1
+    return count

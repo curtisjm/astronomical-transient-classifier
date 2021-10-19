@@ -2,6 +2,7 @@ from tsmoothie.smoother import *
 from tsmoothie.bootstrap import BootstrappingWrapper
 from tsmoothie.utils_func import create_windows, sim_seasonal_data, sim_randomwalk
 
+from utils import *
 
 # min 6000 objects per class
 
@@ -33,7 +34,7 @@ def boot_sim(obj, nsamp, r, c):
     return new_sample
 
 
-def augment_data(data):
+def augment_data_old(data):
     sim_sam = []
     lab = []
     nobj = 2
