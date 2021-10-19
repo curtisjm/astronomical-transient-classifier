@@ -8,7 +8,7 @@ from utils import *
 
 
 # step 1,  iterate over the 1526 objects that matched the 157 month catalog with the files names
-# step 2, for each object extract one band lc and normalize them dividin by the max
+# step 2, for each object extract one band lc and normalize them dividing by the max
 # step 3, bootstrap that lightcurve and place is in the new simulated object with the correct label
 
 # function creating the simulated data
@@ -55,3 +55,23 @@ def augment_data_old(data):
     q = np.reshape(sim_sam * 1e-4, (nobj * len(data[0]), 8, 155))
     print(q[0].shape)
     return q
+
+
+def get_augmented_data(data):
+    pass
+
+
+def augment_data_by_class(data, class_num):
+    n_objs = get_num_objects_by_class(data, class_num)
+    aug_fact = 10
+
+    rates = []
+    for i in range(len(data[3])):
+        if data[3][i] == class_num:
+            rates.append(data[0][i][1])
+
+    aug_rates = rates
+    for mat in rates:
+        for i in range(aug_fact):
+            aug_rates.append(boot_sim(mat * 1e4, 1, 8, 155))
+    print(aug_rates)
