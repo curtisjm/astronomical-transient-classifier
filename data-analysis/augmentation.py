@@ -61,6 +61,55 @@ def get_augmented_data(data):
     pass
 
 
+# function creating the simulated data
+def new_boot_sim(obj, nsamp, r, c):
+    # print(obj)
+    new_sample = np.empty([nsamp, r, c])
+    # print(new_sample.shape)
+    for j in range(r):
+        raw = obj[j]
+        # print(raw)
+        # operate bootstrap
+        bts = BootstrappingWrapper(
+            ConvolutionSmoother(window_len=6, window_type="ones"),
+            bootstrap_type="mbb",
+            block_length=5,
+        )
+        bts_samples = bts.sample(raw, n_samples=nsamp)
+        for i in range(nsamp):
+            # print(new_sample[i][j].shape)
+            # print(bts_samples.T.shape)
+
+            new_sample[i][j] = bts_samples[i]
+    return new_sample
+
+
+def new_augment_data_by_class(data, class_num):
+    aug_fact = 1
+
+    rates = []
+    for i in range(len(data[3])):
+        if data[3][i] == class_num:
+            rates.append(data[0][i][1])
+
+    aug_rates = rates
+    new_rates = []
+    for mat in rates:
+        for i in range(aug_fact):
+            new_mat = []
+            for e_band in mat:
+                bts = BootstrappingWrapper(
+                    ConvolutionSmoother(window_len=6, window_type="ones"),
+                    bootstrap_type="mbb",
+                    block_length=5,
+                )
+                bts_samples = bts.sample(e_band)
+                new_mat.append(bts_samples)
+        new_rates.append(new_mat)
+    print(new_rates)
+    return new_rates
+
+
 def augment_data_by_class(data, class_num):
     n_objs = get_num_objects_by_class(data, class_num)
     aug_fact = 10
@@ -73,5 +122,7 @@ def augment_data_by_class(data, class_num):
     aug_rates = rates
     for mat in rates:
         for i in range(aug_fact):
-            aug_rates.append(boot_sim(mat * 1e4, 1, 8, 155))
+            new_mat = []
+            for e_band in mat:
+                new_mat.append(boot_sim(e_band, 1, 8, 155))
     print(aug_rates)
