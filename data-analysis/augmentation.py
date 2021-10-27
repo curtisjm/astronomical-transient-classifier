@@ -84,30 +84,43 @@ def new_boot_sim(obj, nsamp, r, c):
     return new_sample
 
 
-def new_augment_data_by_class(data, class_num):
+def new_augment_data_single_obj(data, class_num, desired_obj=1000):
     aug_fact = 1
+    new_sample = np.empty([aug_fact, 8, 155])
 
     rates = []
     for i in range(len(data[3])):
         if data[3][i] == class_num:
             rates.append(data[0][i][1])
+    
+    # aug_fact = desired_obj / len(rates)
 
-    aug_rates = rates
-    new_rates = []
-    for mat in rates:
-        for i in range(aug_fact):
-            new_mat = []
-            for e_band in mat:
-                bts = BootstrappingWrapper(
-                    ConvolutionSmoother(window_len=6, window_type="ones"),
-                    bootstrap_type="mbb",
-                    block_length=5,
-                )
-                bts_samples = bts.sample(e_band)
-                new_mat.append(bts_samples)
-        new_rates.append(new_mat)
-    print(new_rates)
-    return new_rates
+    for n_obj in range(len(rates)):  # iterate over SNR objs
+        for s in range(len(new_sample)):  # iterate over output matrices
+            for row in range(8):
+                new_sample[s][row] = aug_single_arr(rates[n_obj][row])
+
+    """
+        checking: compare image (8x155) between XX simulated SNR and the original one
+        rates[0][0][1] ----> new_sample[0:7]
+    """
+
+    # aug_rates = rates
+    # new_rates = []
+    # for mat in rates:
+    #     for i in range(aug_fact):
+    #         new_mat = []
+    #         for e_band in mat:
+    #             bts = BootstrappingWrapper(
+    #                 ConvolutionSmoother(window_len=6, window_type="ones"),
+    #                 bootstrap_type="mbb",
+    #                 block_length=5,
+    #             )
+    #             bts_samples = bts.sample(e_band)
+    #             new_mat.append(bts_samples)
+    #     new_rates.append(new_mat)
+    # print(new_rates)
+    # return new_rates
 
 
 def augment_data_by_class(data, class_num):
@@ -126,3 +139,13 @@ def augment_data_by_class(data, class_num):
             for e_band in mat:
                 new_mat.append(boot_sim(e_band, 1, 8, 155))
     print(aug_rates)
+
+
+def aug_single_arr(arr):
+    bts = BootstrappingWrapper(
+        ConvolutionSmoother(window_len=6, window_type="ones"),
+        bootstrap_type="mbb",
+        block_length=5,
+    )
+    bts_samples = bts.sample(arr)
+    return bts_samples
