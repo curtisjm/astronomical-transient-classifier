@@ -1,10 +1,5 @@
-from matplotlib.pyplot import hist
 import numpy as np
 
-from plotting import *
-from utils import *
-from normalization import *
-from augmentation import *
 from Transient import Transient
 
 data = np.load(
@@ -22,6 +17,5 @@ new_data = [
     )
     for i in range(len(data[0]))
 ]
-
 
 [print(obj.name) for obj in new_data]
