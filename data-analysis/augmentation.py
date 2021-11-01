@@ -148,7 +148,11 @@ def new_augment_data_single_obj(data, class_num, desired_obj=1000):
 
 
 def augment_all_data(data):
-    pass
+    aug_data = []
+    for class_num in data[3]:
+        pass
+        
+        
 
 
 def augment_class(data, class_num, desired_obj=1000):
