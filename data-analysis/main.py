@@ -11,4 +11,4 @@ data = np.load(
 )
 
 aug_data = augment_class(data, "19")
-plot_rates_images([aug_data[0][i][1] for i in range(len(aug_data[0]))])
+plot_rates_images([aug_data[0][i][1] for i in range(8)])

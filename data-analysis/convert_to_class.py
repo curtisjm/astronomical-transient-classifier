@@ -1,6 +1,7 @@
 import numpy as np
 
 from Transient import Transient
+from augmentation import *
 
 data = np.load(
     "./npy-arrays/bat_data1_normalized.npy", allow_pickle=True, fix_imports=False
@@ -18,4 +19,6 @@ new_data = [
     for i in range(len(data[0]))
 ]
 
-[print(obj.name) for obj in new_data]
+# [print(obj.name) for obj in new_data]
+x = augment_class(data, "19")
+print(x)

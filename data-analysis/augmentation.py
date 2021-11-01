@@ -3,6 +3,7 @@ from tsmoothie.bootstrap import BootstrappingWrapper
 from tsmoothie.utils_func import create_windows, sim_seasonal_data, sim_randomwalk
 import copy
 
+from Transient import Transient
 from utils import *
 
 # min 6000 objects per class
@@ -151,42 +152,60 @@ def augment_all_data(data):
     aug_data = []
     for class_num in data[3]:
         pass
-        
-        
 
 
 def augment_class(data, class_num, desired_obj=1000):
     # copy all the original data from the class
     # will overwrite rates later
-    aug_data = []
+    aug_data = [[], [], [], []]
     for i in range(len(data[3])):
         if data[3][i] == class_num:
-            aug_data.append(data[0][i])
+            aug_data[0].append(data[0][i])
+            aug_data[1].append(data[1][i])
+            aug_data[2].append(data[2][i])
+            aug_data[3].append(data[3][i])
 
     # how many total new objects we need
     aug_fact = int(desired_obj / len(aug_data[0]))
-    new_sample = np.empty([aug_fact, 8, 155])
 
     # iterate over SNR objs
-    for n_obj in range(len(data[0])):
-        # iterate over output matrices
-        for s in range(len(new_sample)):
+    for n_obj in range(len(aug_data[0])):
+        # augment each object aug_fact times
+        for _ in range(aug_fact):
             # iterate over the 8 energy bands
+            new_sample = np.empty([8, 155])
             for row in range(8):
                 # use augmentation function
-                new_sample[s][row] = aug_single_arr(aug_data[0][n_obj][1][row])
-                # copy the original object data
-                temp = data[0][n_obj]
-                # overwrite rates
-                temp[1] = new_sample
-                # add to the augmented data
-                aug_data[0].append(temp)
-                # copy over other data corresponding to original object (not affected by augmentation)
-                aug_data[1].append(data[1][n_obj])
-                aug_data[2].append(data[2][n_obj])
-                aug_data[3].append(data[3][n_obj])
+                new_sample[row] = aug_single_arr(aug_data[0][n_obj][1][row])
+            # copy the original object data
+            temp = aug_data[0][n_obj]
+            # overwrite rates
+            temp[1] = new_sample
+            # add to the augmented data
+            aug_data[0].append(temp)
+            # copy over other data corresponding to original object (not affected by augmentation)
+            aug_data[1].append(aug_data[1][n_obj])
+            aug_data[2].append(aug_data[2][n_obj])
+            aug_data[3].append(aug_data[3][n_obj])
 
     return aug_data
+
+    # aug_data = []
+    # for i in range(len(data)):
+    #     if data[i].label == class_num:
+    #         aug_data.append(data[i])
+
+    # aug_fact = int(desired_obj / len(aug_data[0]))
+
+    # for obj in aug_data:
+    #     for num in range(aug_fact):
+    #         new_sample = np.empty([8, 155])
+    #         for row in range(8):
+    #             new_sample[row] = aug_single_arr(obj.rates[row])
+    #         temp = obj
+    #         temp.rates = new_sample
+    #         aug_data.append(temp)
+    # return aug_data
 
 
 def aug_single_arr(arr):
