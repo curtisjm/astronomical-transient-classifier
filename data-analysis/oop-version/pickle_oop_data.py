@@ -1,10 +1,11 @@
 import numpy as np
+import pickle
 
 from Transient import Transient
-from augmentation import *
+from plotting import *
 
 data = np.load(
-    "./npy-arrays/bat_data1_normalized.npy", allow_pickle=True, fix_imports=False
+    "../npy-arrays/bat_data1_normalized.npy", allow_pickle=True, fix_imports=False
 )
 
 new_data = [
@@ -19,6 +20,8 @@ new_data = [
     for i in range(len(data[0]))
 ]
 
-# [print(obj.name) for obj in new_data]
-x = augment_class(data, "19")
-print(x)
+print(new_data[0].rates)
+# with open("../pickles/bat_data.pickle", "wb") as f:
+#     pickle.dump(new_data, f)
+
+plot_images_by_class(new_data, "19")

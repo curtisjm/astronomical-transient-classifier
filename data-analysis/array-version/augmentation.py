@@ -3,7 +3,6 @@ from tsmoothie.bootstrap import BootstrappingWrapper
 from tsmoothie.utils_func import create_windows, sim_seasonal_data, sim_randomwalk
 import copy
 
-from Transient import Transient
 from utils import *
 
 # min 6000 objects per class
