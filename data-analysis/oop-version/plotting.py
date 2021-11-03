@@ -8,8 +8,8 @@ def plot_images_by_class(data, class_num="0"):
     rates = []
     # put all rate matrices into their own array
     for i in range(len(data)):
-        if data[0].label == class_num:
-            rates.append(data[0].rates)
+        if data[i].label == class_num:
+            rates.append(data[i].rates)
     # plot each element in the rates array
     for i in range(len(rates)):
         plt.subplot(len(rates), 1, i + 1)
