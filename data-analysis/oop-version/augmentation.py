@@ -1,6 +1,5 @@
 from tsmoothie.smoother import *
 from tsmoothie.bootstrap import BootstrappingWrapper
-from tsmoothie.utils_func import create_windows, sim_seasonal_data, sim_randomwalk
 
 from utils import *
 
@@ -44,8 +43,11 @@ def augment_class(single_class_data, desired_obj=10):
             # iterate over the 8 energy bands
             new_sample = np.empty([8, 155])
             for row in range(8):
+                # augment the energy band
                 new_sample[row] = aug_single_arr(obj.rates[row])
+                # copy the object
                 temp = obj
+                # overwrite the rates with the newly augmented rates
                 temp.rates = new_sample
                 # add to the augmented data
                 aug_data.append(temp)
