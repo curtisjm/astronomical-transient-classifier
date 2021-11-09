@@ -27,4 +27,6 @@ new_data = [
 # plot_images_by_class(new_data, "19")
 
 aug_data = augment_all_data(new_data)
-print(aug_data[0].rates)
+print(aug_data[1].rates)
+
+plot_images_by_class(aug_data, "19")
