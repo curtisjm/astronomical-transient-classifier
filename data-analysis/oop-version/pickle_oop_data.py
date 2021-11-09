@@ -21,10 +21,13 @@ new_data = [
     for i in range(len(data[0]))
 ]
 
+
 # with open("../pickles/bat_data.pickle", "wb") as f:
 #     pickle.dump(new_data, f)
 
 # plot_images_by_class(new_data, "19")
 
-aug_data = augment_all_data(new_data)
-print(aug_data[0].rates)
+aug_data = augment_snr(new_data)
+print(aug_data[10].rates)
+
+plot_images_by_class(aug_data, "19")
