@@ -6,3 +6,5 @@ class Transient:
         self.name = name
         self.ra_dec = ra_dec
         self.label = label
+        # self.ra = ra
+        # self.dec = dec

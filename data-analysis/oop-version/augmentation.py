@@ -1,6 +1,8 @@
 from tsmoothie.smoother import *
 from tsmoothie.bootstrap import BootstrappingWrapper
 
+import copy
+
 from utils import *
 
 
@@ -12,11 +14,11 @@ def augment_all_data(data):
         # will overwrite rates later
         single_class_data = []
         for i in range(len(data)):
-            if data[i].label == label:
+            if data[i].label == str(label):
                 single_class_data.append(data[i])
 
         # augment the data from each class
-        aug_data = augment_class(data, label)
+        aug_data = augment_class(single_class_data)
 
         # add the augmented data to the full data
         for obj in aug_data:
@@ -25,16 +27,28 @@ def augment_all_data(data):
     return full_aug_data
 
 
-def augment_class(single_class_data, desired_obj=10):
+def augment_snr(data):
+    single_class_data = []
+    for i in range(len(data)):
+        if data[i].label == "19":
+            single_class_data.append(data[i])
+    print("scd: ", len(single_class_data))
+
+    return augment_class(single_class_data)
+
+
+def augment_class(single_class_data, desired_obj=14.0):
     # how many total new objects we need
+    print(len(single_class_data))
     aug_fact = int(desired_obj / len(single_class_data))
+    print("aug fact:", aug_fact)
 
     # class already has enough objects
     if aug_fact < 1:
         return single_class_data
 
     # start with the original data from the class
-    aug_data = single_class_data
+    aug_data = copy.deepcopy(single_class_data)
 
     # iterate over objects of the given class
     for obj in single_class_data:
@@ -45,14 +59,18 @@ def augment_class(single_class_data, desired_obj=10):
             for row in range(8):
                 # augment the energy band
                 new_sample[row] = aug_single_arr(obj.rates[row])
-                # copy the object
-                temp = obj
-                # overwrite the rates with the newly augmented rates
-                temp.rates = new_sample
-                # add to the augmented data
-                aug_data.append(temp)
+            print("exited row loop")
+            # copy the object
+            temp = obj
+            # overwrite the rates with the newly augmented rates
+            temp.rates = new_sample
+            # add to the augmented data
+            aug_data.append(temp)
+        print(len(single_class_data))
+        print("exited aug_fact loop")
+    print("exited obj loop")
 
-    return single_class_data
+    return aug_data
 
 
 def aug_single_arr(arr):
