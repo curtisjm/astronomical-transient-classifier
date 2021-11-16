@@ -29,6 +29,8 @@ print(aug_data[10].rates)
 
 rates_labels = [[aug_data[i].rates, aug_data[i].label] for i in range(len(aug_data))]
 
+plot_rates_images([x[0] for x in rates_labels], "19")
+
 [print(x[0].shape) for x in rates_labels]
 
 # rates_labels = np.asanyarray(rates_labels)
