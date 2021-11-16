@@ -24,12 +24,14 @@ new_data = [
 # with open("../pickles/bat_data.pickle", "wb") as f:
 #     pickle.dump(new_data, f)
 
-aug_data = augment_snr(new_data)
+aug_data = augment_all_data(new_data)
 print(aug_data[10].rates)
 
 rates_labels = [[aug_data[i].rates, aug_data[i].label] for i in range(len(aug_data))]
 
-rates_labels = np.asanyarray(rates_labels, dtype=object)
+[print(x[0].shape) for x in rates_labels]
+
+# rates_labels = np.asanyarray(rates_labels)
 
 np.save(
     "../npy-arrays/aug_rates_labels.npy",
@@ -37,3 +39,6 @@ np.save(
     allow_pickle=True,
     fix_imports=False,
 )
+
+# with open("../pickles/aug_labels_rates.pickle", "wb") as f:
+#     pickle.dump(rates_labels, f)

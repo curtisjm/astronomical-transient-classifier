@@ -40,7 +40,7 @@ z = sub_class["Redshift (g)"].values
 z[np.isnan(z)] = 0.0
 ld = cosmo.luminosity_distance(z).value * 1e6
 
-data_dir = "./bat_157mo_eight_band_monthly_lightcurve"
+data_dir = "../bat_157mo_eight_band_monthly_lightcurve"
 
 file_list = glob.glob(data_dir + "/*.lc")
 # print(file_list[0:5])
