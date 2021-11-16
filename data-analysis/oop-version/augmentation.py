@@ -32,16 +32,13 @@ def augment_snr(data):
     for i in range(len(data)):
         if data[i].label == "19":
             single_class_data.append(data[i])
-    print("scd: ", len(single_class_data))
 
     return augment_class(single_class_data)
 
 
 def augment_class(single_class_data, desired_obj=14.0):
     # how many total new objects we need
-    print(len(single_class_data))
     aug_fact = int(desired_obj / len(single_class_data))
-    print("aug fact:", aug_fact)
 
     # class already has enough objects
     if aug_fact < 1:
@@ -59,16 +56,12 @@ def augment_class(single_class_data, desired_obj=14.0):
             for row in range(8):
                 # augment the energy band
                 new_sample[row] = aug_single_arr(obj.rates[row])
-            print("exited row loop")
             # copy the object
             temp = obj
             # overwrite the rates with the newly augmented rates
             temp.rates = new_sample
             # add to the augmented data
             aug_data.append(temp)
-        print(len(single_class_data))
-        print("exited aug_fact loop")
-    print("exited obj loop")
 
     return aug_data
 
